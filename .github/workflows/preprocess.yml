@@ -2,10 +2,11 @@ name: 🚀 Run Preprocessing
 
 on:
   push:
-    paths:
-      - '**.py'
-      - 'cardiovascular_disease_raw.csv'
-  workflow_dispatch:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   preprocess:
@@ -38,7 +39,7 @@ jobs:
                     "
 
       - name: 📤 Upload Preprocessed Dataset
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: preprocessed-dataset
           path: preprocessing/cardiovascular_disease_preprocessing.csv
