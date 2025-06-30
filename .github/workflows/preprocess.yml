@@ -1,0 +1,44 @@
+name: 🚀 Run Preprocessing
+
+on:
+  push:
+    paths:
+      - '**.py'
+      - 'cardiovascular_disease_raw.csv'
+  workflow_dispatch:
+
+jobs:
+  preprocess:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.7'
+
+      - name: 📦 Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas numpy matplotlib seaborn scikit-learn scipy warnings
+
+      - name: ⚙️ Run Preprocessing Script
+        run: |
+          python -c "
+          import pandas as pd
+          from preprocessing.automate_Galah import get_ml_ready_data
+
+          df_raw = pd.read_csv('cardiovascular_disease_raw.csv', sep=';')
+          df_ready = get_ml_ready_data(df_raw, target_column='cardio')
+          df_ready.to_csv('preprocessing/cardiovascular_disease_preprocessing.csv', index=False)
+          print('✅ Normalized dataset saved.')
+                    "
+
+      - name: 📤 Upload Preprocessed Dataset
+        uses: actions/upload-artifact@v3
+        with:
+          name: preprocessed-dataset
+          path: preprocessing/cardiovascular_disease_preprocessing.csv
