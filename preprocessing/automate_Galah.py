@@ -559,9 +559,9 @@ class CardiovascularPreprocessor:
         self.log_step(f"Available datasets: {list(results.keys())}")
         
         # 💾 EXPORT DATA
-        for name, df in results.items():
-            if 'id' in df.columns:
-                results[name] = df.drop(columns=['id'])
+        for name, item in results.items():
+            if isinstance(item, pd.DataFrame) and 'id' in item.columns:
+                results[name] = item.drop(columns=['id'])
 
         if return_multiple:
             return results
