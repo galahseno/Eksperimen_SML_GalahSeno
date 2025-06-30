@@ -24,7 +24,7 @@ jobs:
       - name: 📦 Install Python Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pandas numpy matplotlib seaborn scikit-learn scipy warnings
+          pip install pandas numpy matplotlib seaborn scikit-learn scipy
 
       - name: ⚙️ Run Preprocessing Script
         run: |
